@@ -52,8 +52,15 @@ public class AuthenticationService {
 
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserAuthTokenEntity signout(final String authorization) throws SignOutRestrictedException {
+    public UserEntity signout(final String authorization) throws SignOutRestrictedException {
 //        Write the logic to sign out and also throw the exception when required
-        return null;
+        UserAuthTokenEntity userAuthEntity = userDao.getAuthToken(authorization);
+        if(userAuthEntity==null){
+            throw new SignOutRestrictedException("SGR-001","User is not Signed in");
+        }
+        userAuthEntity.setLogoutAt(ZonedDateTime.now());
+        userDao.updateUserEntity(userAuthEntity);
+        return userAuthEntity.getUser();
+
     }
 }
