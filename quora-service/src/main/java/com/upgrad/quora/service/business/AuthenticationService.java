@@ -59,7 +59,7 @@ public class AuthenticationService {
             throw new SignOutRestrictedException("SGR-001","User is not Signed in");
         }
         userAuthEntity.setLogoutAt(ZonedDateTime.now());
-        userDao.updateUserEntity(userAuthEntity);
+        userDao.signout(userAuthEntity);
         return userAuthEntity.getUser();
 
     }
