@@ -16,7 +16,7 @@ public class AdminBusinessService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity deleteUser(final String authorization, final String uuid) throws AuthorizationFailedException, UserNotFoundException {
-
+//   Add the business logic to delete the user
         return null;
     }
 }

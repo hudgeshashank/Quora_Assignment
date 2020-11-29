@@ -19,7 +19,7 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.DELETE, path = "/admin/user/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDeleteResponse> deleteUser(@RequestHeader("authorization")final String authorization,
                                                          @PathVariable("userId")final String uuid) throws AuthorizationFailedException, UserNotFoundException {
-
+//  Add the Controller logic to delete the user
         return null;
     }
 }
