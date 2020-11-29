@@ -5,6 +5,7 @@ import com.upgrad.quora.service.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 @Repository
@@ -16,18 +17,28 @@ public class UserDao {
     public UserEntity createUser(UserEntity userEntity)
     {
 //        Add the logic to persist the signup user data
-        return null;
+        entityManager.persist(userEntity);
+        return userEntity;
     }
     public UserEntity getUserByUserName(final String username)
     {
 //        Write the logic to fetch user by username
+        try {
+            return entityManager.createNamedQuery("userByUserName", UserEntity.class).setParameter("username", username)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
             return null;
+        }
     }
     public UserEntity getUserByEmail(final String email)
     {
 //        Write the logic to fetch user by email
-        return null;
-
+        try {
+            return entityManager.createNamedQuery("userByEmail", UserEntity.class).setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
     public UserAuthTokenEntity getAuthToken(final String authorization)
