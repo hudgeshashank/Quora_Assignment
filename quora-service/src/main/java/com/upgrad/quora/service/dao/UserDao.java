@@ -41,10 +41,6 @@ public class UserDao {
         }
     }
 
-    public void updateUserEntity(final UserAuthTokenEntity updatedUserEntity)
-    {
-        entityManager.merge(updatedUserEntity);
-    }
 
     public UserAuthTokenEntity getAuthToken(final String authorization)
     {
