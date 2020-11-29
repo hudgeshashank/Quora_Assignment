@@ -21,11 +21,14 @@ public class RestExceptionHandler {
                 HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(AuthenticationFailedException.class)
     public ResponseEntity<ErrorResponse> authenticationfailed(AuthenticationFailedException exc,WebRequest request)
     {
         //        Handle the exception
-        return null;
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
+                HttpStatus.UNAUTHORIZED);
+
     }
 
     @ExceptionHandler
@@ -33,6 +36,6 @@ public class RestExceptionHandler {
     {
         //        Handle the exception
         return null;
-   }
+    }
 
 }
