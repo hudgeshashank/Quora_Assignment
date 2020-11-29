@@ -36,6 +36,7 @@ public class UserController {
     @Autowired
     private AuthenticationService authenticationService;
 
+
     @RequestMapping(method = RequestMethod.POST, path = "/user/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupUserResponse> signup(final SignupUserRequest signupUserRequest) throws SignUpRestrictedException {
 //     Write the Controller to sign up and send the data to userbusiness service
@@ -80,8 +81,12 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, path = "user/signout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignoutResponse> signout(@RequestHeader("authorization")final String authorization) throws SignOutRestrictedException {
-//  Write the Controller to sign in and send the data to userbusiness service
-        return null;
+       //  Write the Controller to sign out and send the data to userbusiness service
+        UserEntity userEntity = authenticationService.signout(authorization);
+        SignoutResponse signoutResponse = new SignoutResponse().id(userEntity.getUuid()).message("SIGNED OUT SUCCESSFULLY");
+
+        return new ResponseEntity<SignoutResponse>(signoutResponse, HttpStatus.OK);
+
     }
 
 }

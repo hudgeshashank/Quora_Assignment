@@ -33,7 +33,10 @@ public class RestExceptionHandler {
     public  ResponseEntity<ErrorResponse> signoutfailed(SignOutRestrictedException exc, WebRequest request)
     {
         //        Handle the exception
-        return null;
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()), HttpStatus.UNAUTHORIZED
+        );
+
     }
 
     @ExceptionHandler(AuthorizationFailedException.class)

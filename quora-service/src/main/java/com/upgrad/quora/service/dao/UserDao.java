@@ -41,10 +41,6 @@ public class UserDao {
         }
     }
 
-    public void updateUserEntity(final UserEntity updatedUserEntity)
-    {
-        entityManager.merge(updatedUserEntity);
-    }
 
     public UserAuthTokenEntity getAuthToken(final String authorization)
     {
@@ -66,7 +62,8 @@ public class UserDao {
     public UserAuthTokenEntity signout(final UserAuthTokenEntity userAuthTokenEntity)
     {
 //        Write the logic to update sign out data
-        return null;
+        entityManager.merge(userAuthTokenEntity);
+        return userAuthTokenEntity;
     }
 
     public UserEntity deleteUser(final UserEntity userEntity)
