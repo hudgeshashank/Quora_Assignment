@@ -66,4 +66,16 @@ public class UserDao {
         return userAuthTokenEntity;
     }
 
+    public UserEntity deleteUser(final UserEntity userEntity)
+    {
+//       This method deletes the user from the database
+        return null;
+    }
+
+    public UserEntity getUserByUuid(final String uuid)
+    {
+//      This method fetch the user from the database based on uuid
+        return null;
+    }
+
 }
