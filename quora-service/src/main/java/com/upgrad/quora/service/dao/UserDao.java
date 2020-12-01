@@ -84,4 +84,8 @@ public class UserDao {
         }
     }
 
+    public void deleteAuthToken(final UserAuthTokenEntity userAuthTokenEntity) {
+        entityManager.remove(userAuthTokenEntity);
+    }
+
 }
