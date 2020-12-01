@@ -5,7 +5,6 @@ import com.upgrad.quora.service.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -37,6 +36,7 @@ public class QuestionDao {
     public QuestionEntity getQuestionByUuid(final String uuid) {
 //       Add the logic to get  question by uuid
         return null;
+    }
 
     public QuestionEntity deleteQuestion(final QuestionEntity questionEntity){
        entityManager.remove(questionEntity);
