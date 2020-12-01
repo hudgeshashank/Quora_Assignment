@@ -66,16 +66,22 @@ public class UserDao {
         return userAuthTokenEntity;
     }
 
-    public UserEntity deleteUser(final UserEntity userEntity)
+    public void deleteUser(final UserEntity userEntity)
     {
 //       This method deletes the user from the database
-        return null;
+        entityManager.remove(userEntity);
+
     }
 
     public UserEntity getUserByUuid(final String uuid)
     {
 //      This method fetch the user from the database based on uuid
-        return null;
+        try{
+            return entityManager.createNamedQuery("userByUuid", UserEntity.class).setParameter("uuid", uuid)
+                    .getSingleResult();
+        } catch(NoResultException nre) {
+            return null;
+        }
     }
 
 }

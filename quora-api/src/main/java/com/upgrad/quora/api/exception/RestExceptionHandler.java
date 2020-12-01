@@ -43,14 +43,16 @@ public class RestExceptionHandler {
     public ResponseEntity<ErrorResponse> authorizationfailed(AuthorizationFailedException exc, WebRequest request)
     {
 //      Handle the exception for authorizationfailedexception
-        return null;
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
+                HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> userNotFound(UserNotFoundException exc, WebRequest request)
     {
 //      Handle the exception for usernotfoundexception
-        return null;
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
+                HttpStatus.UNAUTHORIZED); // in proman we use NOT_FOUND (Response 404), but its not given in quora response definition
     }
 
 }
