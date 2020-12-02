@@ -41,10 +41,6 @@ public class UserDao {
         }
     }
 
-    public void updateUserEntity(final UserEntity updatedUserEntity)
-    {
-        entityManager.merge(updatedUserEntity);
-    }
 
     public UserAuthTokenEntity getAuthToken(final String authorization)
     {
@@ -66,7 +62,30 @@ public class UserDao {
     public UserAuthTokenEntity signout(final UserAuthTokenEntity userAuthTokenEntity)
     {
 //        Write the logic to update sign out data
-        return null;
+        entityManager.merge(userAuthTokenEntity);
+        return userAuthTokenEntity;
+    }
+
+    public void deleteUser(final UserEntity userEntity)
+    {
+//       This method deletes the user from the database
+        entityManager.remove(userEntity);
+
+    }
+
+    public UserEntity getUserByUuid(final String uuid)
+    {
+//      This method fetch the user from the database based on uuid
+        try{
+            return entityManager.createNamedQuery("userByUuid", UserEntity.class).setParameter("uuid", uuid)
+                    .getSingleResult();
+        } catch(NoResultException nre) {
+            return null;
+        }
+    }
+
+    public void deleteAuthToken(final UserAuthTokenEntity userAuthTokenEntity) {
+        entityManager.remove(userAuthTokenEntity);
     }
 
 }
