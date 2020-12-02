@@ -2,10 +2,12 @@ package com.upgrad.quora.api.controller;
 
 import com.upgrad.quora.api.model.*;
 import com.upgrad.quora.service.business.QuestionBusiessService;
+import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,13 @@ public class QuestionController {
     public ResponseEntity<QuestionResponse> createQuestion(@RequestHeader("authorization")final String authorization,
                                                            QuestionRequest questionRequest) throws AuthorizationFailedException {
 //     Add the controller logic to create user
-        return null;
+        QuestionEntity questionEntity = new QuestionEntity();
+        questionEntity.setContent(questionRequest.getContent());
+        questionEntity = questionBusiessService.createQuestion(authorization, questionEntity);
+        QuestionResponse questionResponse = new QuestionResponse();
+        questionResponse.setId(questionEntity.getUuid());
+        questionResponse.setStatus("QUESTION CREATED");
+        return new ResponseEntity<QuestionResponse>(questionResponse, HttpStatus.CREATED);
 
     }
 
