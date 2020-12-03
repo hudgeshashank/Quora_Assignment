@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,16 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.GET, path = "/question/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<QuestionDetailsResponse>> getAllQuestions(@RequestHeader("authorization")final String authorization) throws AuthorizationFailedException {
 //     Add the controller logic to get all the questions irrespective of the  user
-        return null;
+        List<QuestionEntity> questions = questionBusiessService.getAllQuestions(authorization);
+        List<QuestionDetailsResponse> questionDetailResponses = new ArrayList<>();
+        for (QuestionEntity questionEntity : questions) {
+            QuestionDetailsResponse questionDetailResponse = new QuestionDetailsResponse();
+            questionDetailResponse.setId(questionEntity.getUuid());
+            questionDetailResponse.setContent(questionEntity.getContent());
+            questionDetailResponses.add(questionDetailResponse);
+        }
+        return new ResponseEntity<List<QuestionDetailsResponse>>(
+                questionDetailResponses, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/question/edit/{questionId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -46,21 +56,39 @@ public class QuestionController {
                                                              @PathVariable("questionId")final String uuid,
                                                              final QuestionEditRequest questionEditRequest) throws AuthorizationFailedException, InvalidQuestionException {
         //     Add the controller logic to edit the question
-        return null;
+        QuestionEntity questionEntity =
+                questionBusiessService.editQuestion(authorization, uuid, questionEditRequest.getContent());
+        QuestionEditResponse questionEditResponse = new QuestionEditResponse();
+        questionEditResponse.setId(questionEntity.getUuid());
+        questionEditResponse.setStatus("QUESTION EDITED");
+        return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/question/delete/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionDeleteResponse> deleteQuestion(@RequestHeader("authorization")final String authorization,
                                                                  @PathVariable("questionId")final String uuid) throws AuthorizationFailedException, InvalidQuestionException {
         //     Add the controller logic to delete the question
-        return null;
+        QuestionEntity questionEntity = questionBusiessService.deleteQuestion(authorization, uuid);
+        QuestionDeleteResponse questionDeleteResponse = new QuestionDeleteResponse();
+        questionDeleteResponse.setId(questionEntity.getUuid());
+        questionDeleteResponse.setStatus("QUESTION DELETED");
+        return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/question/all/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<QuestionDetailsResponse>> getQuestionsByUser(@RequestHeader("authorization")final String authorization,
                                                                             @PathVariable("userId")final String uuid) throws AuthorizationFailedException, UserNotFoundException {
 //     Add the controller logic to get all the questions of user
-        return null;
+        List<QuestionEntity> questions = questionBusiessService.getAllQuestionsByUser(authorization, uuid);
+        List<QuestionDetailsResponse> questionDetailResponses = new ArrayList<>();
+        for (QuestionEntity questionEntity : questions) {
+            QuestionDetailsResponse questionDetailResponse = new QuestionDetailsResponse();
+            questionDetailResponse.setId(questionEntity.getUuid());
+            questionDetailResponse.setContent(questionEntity.getContent());
+            questionDetailResponses.add(questionDetailResponse);
+        }
+        return new ResponseEntity<List<QuestionDetailsResponse>>(
+                questionDetailResponses, HttpStatus.OK);
     }
 
 
