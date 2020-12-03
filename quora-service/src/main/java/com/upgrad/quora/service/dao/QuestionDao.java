@@ -5,6 +5,7 @@ import com.upgrad.quora.service.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -17,34 +18,46 @@ public class QuestionDao {
    public QuestionEntity createQuestion(QuestionEntity questionEntity)
    {
        //       Add the logic to persist the question data
-       return null;
+       entityManager.persist(questionEntity);
+       return questionEntity;
    }
 
-   public List<QuestionEntity> getAllQuestion()
+   public List<QuestionEntity> getAllQuestions()
    {
 //       Add the logic to get all the question irrespective of user
-       return null;
+       return entityManager.createNamedQuery("getAllQuestions", QuestionEntity.class).getResultList();
 
    }
 
    public QuestionEntity editQuestion(final QuestionEntity questionEntity)
    {
        //       Add the logic to update the question content
-       return null;
+       entityManager.merge(questionEntity);
+       return questionEntity;
    }
 
     public QuestionEntity getQuestionByUuid(final String uuid) {
 //       Add the logic to get  question by uuid
-        return null;
+        try {
+            return entityManager
+                    .createNamedQuery("getQuestionByUuid", QuestionEntity.class)
+                    .setParameter("uuid", uuid)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
     public QuestionEntity deleteQuestion(final QuestionEntity questionEntity){
        entityManager.remove(questionEntity);
        return questionEntity;
     }
-    public List<QuestionEntity> getAllQuestionByUser(final UserEntity userEntity)
+    public List<QuestionEntity> getAllQuestionsByUser(final UserEntity userEntity)
     {
 //       Add the logic to get all the question which are specifc to user
-        return null;
+        return entityManager
+                .createNamedQuery("getAllQuestionById", QuestionEntity.class)
+                .setParameter("user", userEntity)
+                .getResultList();
     }
 }
