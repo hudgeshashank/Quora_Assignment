@@ -17,7 +17,8 @@ public class AnswerDao {
     public AnswerEntity createAnswer(final AnswerEntity answerEntity)
     {
 //         Add the logic to persist answer entity
-        return null;
+        entityManager.persist(answerEntity);
+        return answerEntity;
     }
 
     public AnswerEntity editAnswer(final AnswerEntity answerEntity)
@@ -35,7 +36,9 @@ public class AnswerDao {
     public List<AnswerEntity> getAllAnswer(final QuestionEntity questionEntity)
     {
 //         Add the logic to get all answer
-        return null;
+        return entityManager.createNamedQuery("getAnswerByQuestion", AnswerEntity.class)
+                .setParameter("question", questionEntity).getResultList();
+
     }
 
     public AnswerEntity getAnswerByUuid(final String uuid) {
