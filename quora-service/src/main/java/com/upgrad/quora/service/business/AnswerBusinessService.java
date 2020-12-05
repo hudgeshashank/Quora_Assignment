@@ -59,7 +59,22 @@ public class AnswerBusinessService {
     @Transactional(propagation = Propagation.REQUIRED)
     public AnswerEntity editAnswer(final String authorization, final String answerid, final String editedAnswer) throws AuthorizationFailedException, AnswerNotFoundException {
         //      Add the business logic to edit the answer
-        return null;
+        UserAuthTokenEntity userAuthTokenEntity = userDao.getAuthToken(authorization);
+        if (userAuthTokenEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        } else if (userAuthTokenEntity.getLogoutAt() != null) {
+            throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to edit an answer");
+        }
+        AnswerEntity answerEntity = answerDao.getAnswerByUuid(answerid);
+        if (answerEntity == null) {
+            throw new AnswerNotFoundException("ANS-001", "Entered answer uuid does not exist");
+        }
+        if (!answerEntity.getUser().getUuid().equals(userAuthTokenEntity.getUser().getUuid())) {
+            throw new AuthorizationFailedException("ATHR-003", "Only the answer owner can edit the answer");
+        }
+        answerEntity.setAns(editedAnswer);
+        answerDao.editAnswer(answerEntity);
+        return answerEntity;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
