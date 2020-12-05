@@ -29,10 +29,14 @@ public class AnswerDao {
           return answerEntity;
     }
 
-    public AnswerEntity deleteAnswer(final AnswerEntity answerEntity)
+    public AnswerEntity deleteAnswer(final String answerEntity)
     {
 //         Add the logic to remove answer entity
-        return null;
+        AnswerEntity deleteAnswer = getAnswerByUuid(answerEntity);
+        if (deleteAnswer != null) {
+            entityManager.remove(deleteAnswer);
+        }
+        return deleteAnswer;
     }
 
     public List<AnswerEntity> getAllAnswer(final QuestionEntity questionEntity)
