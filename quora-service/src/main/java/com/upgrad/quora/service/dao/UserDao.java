@@ -42,11 +42,12 @@ public class UserDao {
     }
 
 
-    public void deleteUser(final UserEntity userEntity)
+    public UserEntity deleteUser(final UserEntity userEntity)
     {
 //       This method deletes the user from the database
         entityManager.remove(userEntity);
 
+        return userEntity;
     }
 
     public UserEntity getUserByUuid(final String uuid)
