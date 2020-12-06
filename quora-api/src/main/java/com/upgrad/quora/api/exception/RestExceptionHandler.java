@@ -16,7 +16,7 @@ public class RestExceptionHandler {
     {
 //        Handle the exception
         return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
-                HttpStatus.FORBIDDEN);
+                HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(AuthenticationFailedException.class)
