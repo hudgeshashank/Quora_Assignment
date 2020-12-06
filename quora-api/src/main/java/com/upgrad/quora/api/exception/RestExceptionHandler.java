@@ -44,7 +44,7 @@ public class RestExceptionHandler {
     {
 //      Handle the exception for authorizationfailedexception
         return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
-                HttpStatus.UNAUTHORIZED);
+                HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
@@ -52,7 +52,7 @@ public class RestExceptionHandler {
     {
 //      Handle the exception for usernotfoundexception
         return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
-                HttpStatus.UNAUTHORIZED); // in proman we use NOT_FOUND (Response 404), but its not given in quora response definition
+                HttpStatus.NOT_FOUND); // in proman we use NOT_FOUND (Response 404), but its not given in quora response definition
     }
 
     @ExceptionHandler(InvalidQuestionException.class)
