@@ -60,7 +60,7 @@ public class RestExceptionHandler {
     {
 //      Handle the exception for invalidquestionexception
         return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
-                HttpStatus.FORBIDDEN);
+                HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AnswerNotFoundException.class)
