@@ -42,30 +42,6 @@ public class UserDao {
     }
 
 
-    public UserAuthTokenEntity getAuthToken(final String authorization)
-    {
-//        write logic to fetch access token
-        try {
-            return entityManager.createNamedQuery("Access_Token", UserAuthTokenEntity.class).setParameter("accessToken", authorization).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-        }
-    }
-
-    public UserAuthTokenEntity saveLogin(final UserAuthTokenEntity userAuthTokenEntity)
-    {
-//        perssit the login data
-        entityManager.persist(userAuthTokenEntity);
-        return userAuthTokenEntity;
-    }
-
-    public UserAuthTokenEntity signout(final UserAuthTokenEntity userAuthTokenEntity)
-    {
-//        Write the logic to update sign out data
-        entityManager.merge(userAuthTokenEntity);
-        return userAuthTokenEntity;
-    }
-
     public void deleteUser(final UserEntity userEntity)
     {
 //       This method deletes the user from the database
