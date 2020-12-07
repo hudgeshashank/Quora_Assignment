@@ -16,7 +16,7 @@ public class RestExceptionHandler {
     {
 //        Handle the exception
         return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
-                HttpStatus.FORBIDDEN);
+                HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(AuthenticationFailedException.class)
@@ -29,7 +29,7 @@ public class RestExceptionHandler {
 
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(SignOutRestrictedException.class)
     public  ResponseEntity<ErrorResponse> signoutfailed(SignOutRestrictedException exc, WebRequest request)
     {
         //        Handle the exception
@@ -44,7 +44,7 @@ public class RestExceptionHandler {
     {
 //      Handle the exception for authorizationfailedexception
         return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
-                HttpStatus.UNAUTHORIZED);
+                HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
@@ -52,7 +52,23 @@ public class RestExceptionHandler {
     {
 //      Handle the exception for usernotfoundexception
         return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
-                HttpStatus.UNAUTHORIZED); // in proman we use NOT_FOUND (Response 404), but its not given in quora response definition
+                HttpStatus.NOT_FOUND); // in proman we use NOT_FOUND (Response 404), but its not given in quora response definition
+    }
+
+    @ExceptionHandler(InvalidQuestionException.class)
+    public ResponseEntity<ErrorResponse> invalidQuestion(InvalidQuestionException exc, WebRequest request)
+    {
+//      Handle the exception for invalidquestionexception
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
+                HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AnswerNotFoundException.class)
+    public ResponseEntity<ErrorResponse> answerNotFound(AnswerNotFoundException exc, WebRequest request)
+    {
+//      Handle the exception for invalidquestionexception
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
+                HttpStatus.NOT_FOUND);
     }
 
 }
