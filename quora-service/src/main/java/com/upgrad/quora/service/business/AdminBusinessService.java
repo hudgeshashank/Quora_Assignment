@@ -23,7 +23,12 @@ public class AdminBusinessService {
 //   Add the business logic to delete the user
 
         UserAuthTokenEntity userAuthTokenEntity = userAdminBusinessService.authorize(authorization);
-        if(userAuthTokenEntity.getUser().getRole().equals("admin") || userAuthTokenEntity.getUser().getUuid().equals(uuid))
+        if(userAuthTokenEntity.getLogoutAt() != null)
+        {
+            throw new AuthorizationFailedException("ATHR-002","User is signed out");
+        }
+
+        if(userAuthTokenEntity.getUser().getRole().equals("admin"))
         {
             UserEntity userEntity = userDao.getUserByUuid(uuid);
             if(userEntity != null)

@@ -24,6 +24,11 @@ public class CommonBusinessService {
 //        Write he business logic to fetch user details
         UserAuthTokenEntity userAuthTokenEntity = userAdminBusinessService.authorize(authorization);
 
+        if(userAuthTokenEntity.getLogoutAt() != null)
+        {
+            throw new AuthorizationFailedException("ATHR-002","User is signed out.Sign in first to get user details");
+        }
+
         UserEntity userEntity = userDao.getUserByUuid(uuid);
 
         if(userEntity == null) {

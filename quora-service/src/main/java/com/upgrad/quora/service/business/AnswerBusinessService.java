@@ -37,6 +37,10 @@ public class AnswerBusinessService {
     public AnswerEntity createAnswer(final String authorization, String  questionId, AnswerEntity answerEntity) throws AuthorizationFailedException, InvalidQuestionException {
 //      Add the business logic to create the answer
         UserAuthTokenEntity userAuthTokenEntity = userAdminBusinessService.authorize(authorization);
+        if(userAuthTokenEntity.getLogoutAt() != null)
+        {
+            throw new AuthorizationFailedException("ATHR-002","User is signed out.Sign in first to post an answer");
+        }
         QuestionEntity questionEntity = questionDao.getQuestionByUuid(questionId);
         if (questionEntity == null) {
             throw new InvalidQuestionException("QUES-001", "The question entered is invalid");
@@ -54,6 +58,10 @@ public class AnswerBusinessService {
     public AnswerEntity editAnswer(final String authorization, final String answerid, final String editedAnswer) throws AuthorizationFailedException, AnswerNotFoundException {
         //      Add the business logic to edit the answer
         UserAuthTokenEntity userAuthTokenEntity = userAdminBusinessService.authorize(authorization);
+        if(userAuthTokenEntity.getLogoutAt() != null)
+        {
+            throw new AuthorizationFailedException("ATHR-002","User is signed out.Sign in first to edit an answer");
+        }
         AnswerEntity answerEntity = answerDao.getAnswerByUuid(answerid);
         if (answerEntity == null) {
             throw new AnswerNotFoundException("ANS-001", "Entered answer uuid does not exist");
@@ -69,6 +77,10 @@ public class AnswerBusinessService {
     @Transactional(propagation = Propagation.REQUIRED)
     public AnswerEntity deleteAnswer(final String authorization, final String answerid) throws AuthorizationFailedException, AnswerNotFoundException {
         UserAuthTokenEntity userAuthTokenEntity = userAdminBusinessService.authorize(authorization);
+        if(userAuthTokenEntity.getLogoutAt() != null)
+        {
+            throw new AuthorizationFailedException("ATHR-002","User is signed out.Sign in first to delete an answer");
+        }
 
         AnswerEntity answerEntity = answerDao.getAnswerByUuid(answerid);
         if (answerEntity == null) {
@@ -89,6 +101,10 @@ public class AnswerBusinessService {
     public List<AnswerEntity> getAllAswer(final String authorization, final String questionId) throws AuthorizationFailedException, InvalidQuestionException {
         //      Add the business logic to get all answer
         UserAuthTokenEntity userAuthTokenEntity = userAdminBusinessService.authorize(authorization);
+        if(userAuthTokenEntity.getLogoutAt() != null)
+        {
+            throw new AuthorizationFailedException("ATHR-002","User is signed out.Sign in first to get the answers");
+        }
 
         QuestionEntity questionEntity = questionDao.getQuestionByUuid(questionId);
         if (questionEntity == null) {
